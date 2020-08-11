@@ -13,22 +13,22 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <a href="/posts/create" class="btn btn-primary">Create Post</a>
+                    <a href="/posts/create" class="btn btn-primary">New Project</a>
                     <br><br>
-                    @if(count($posts) > 0)
-                    <h3>Your Blog Posts</h3>
+                    @if(count($projects) > 0)
+                    <h3>Your Projects</h3>
                     <table class="table table-striped">
                         <tr>
                             <th>Title</th>
                             <th></th>
                             <th></th>
                         </tr>
-                        @foreach($posts as $post)
+                        @foreach($projects as $project)
                             <tr>
-                                <td>{{$post->title}}</td>
-                                <td><a href="/posts/{{$post->id}}/edit" class="btn btn-success">Edit</a></td>
+                                <td>{{$project->project_title}}</td>
+                                <td><a href="/posts/{{$project->project_id}}/edit" class="btn btn-success">Edit</a></td>
                                 <td>
-                                    {!!Form::open(['action' => ['PostsController@destroy', $post->id], 'method' => 'POST', 'class' => 'float-right'])!!}
+                                    {!!Form::open(['action' => ['ProjectsController@destroy', $project->project_id], 'method' => 'POST', 'class' => 'float-right'])!!}
                                         {{Form::hidden('_method', 'DELETE')}}
                                         {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
                                     {!!Form::close()!!}

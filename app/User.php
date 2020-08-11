@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'first_name', 'last_name', 'email', 'password', 'role'
     ];
 
     /**
@@ -37,7 +37,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function posts() {
-        return $this->hasMany('App\Post');
+    //A user can have many projects
+    public function projects() {
+        return $this->hasMany('App\Project');
+    }
+
+    public function supervisorStudentLink() {
+        return $this->hasMany('App\Supervisor_Student_Link');
     }
 }
