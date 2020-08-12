@@ -52,6 +52,10 @@
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
+
+                            @if(Auth::user()->role == "Superadmin" || Auth::user()->role == "Admin")
+                                <a class="dropdown-item" href="/assign">Assign Students</a>
+                            @endif
                         </div>
                     </li>
                 @endguest

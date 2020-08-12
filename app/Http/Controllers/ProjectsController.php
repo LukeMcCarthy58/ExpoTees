@@ -91,7 +91,11 @@ class ProjectsController extends Controller
      */
     public function show($id)
     {
-        //
+        $project = Project::select('*')
+        ->join('project_images', 'projects.project_image', '=', 'project_images.project_image_id')
+        ->join('users', 'projects.project_user', '=', 'users.id')
+        ->where('project_id', $id)->first();
+        return view('posts.show')->with('project', $project);
     }
 
     /**
@@ -102,7 +106,14 @@ class ProjectsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $project = Project::find($id);
+
+        //Check for correct user
+        if(auth()->user()->id !==$project->project_user) {
+            return redirect('/posts')->with('error', 'Unauthorised Page');
+        }
+
+        return view('posts.edit')->with('project', $project);
     }
 
     /**
@@ -114,7 +125,39 @@ class ProjectsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'project_title' => 'required',
+            'project_description' => 'required',
+            'project_image' => 'image|nullable|max:1999'
+        ]);
+        
+        //Handle file upload
+        if($request->hasFile('project_image')){
+            // Get filename with the extension
+            $filenameWithExt = $request->file('project_image')->getClientOriginalName();
+            // Get just filename
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            // Get just ext
+            $extension = $request->file('project_image')->getClientOriginalExtension();
+            // Filename to store
+            $fileNameToStore = $filename.'_'.time().'.'.$extension;
+            // Upload image
+            $path = $request->file('project_image')->storeAs('public/cover_images', $fileNameToStore);
+        }
+
+        //Create Post
+        $project = Project::find($id);
+        $project->project_title = $request->input('project_title');
+        $project->project_description = $request->input('project_description');
+        $project->save();
+
+        if($request->hasFile('project_image')){
+            $project_image = Project_Image::find($project->project_image);
+            $project_image->project_image_path = $fileNameToStore;
+            $project_image->save();
+        }
+
+        return redirect('/posts')->with('success', 'Post Updated');
     }
 
     /**
@@ -125,16 +168,19 @@ class ProjectsController extends Controller
      */
     public function destroy($id)
     {
-        $project = Project::find($id);
+        $project = Project::select('*')
+        ->join('project_images', 'projects.project_image', '=', 'project_images.project_image_id')
+        ->join('users', 'projects.project_user', '=', 'users.id')
+        ->where('project_id', $id)->first();
 
         //Check for correct user
         if(auth()->user()->id !==$project->project_user) {
             return redirect('/posts')->with('error', 'Unauthorised Page');
         }
 
-        if($project->project_image != 'noimage.jpg') {
+        if($project->project_image_path != 'noimage.jpg') {
             //Delete image
-            Storage::delete('public/cover_images/'.$project->project_image);
+            Storage::delete('public/cover_images/'.$project->project_image_path);
         }
 
         $project->delete();

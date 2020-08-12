@@ -11,15 +11,6 @@
             </div>
             <div class="col-md-8 col-sm-4">
                 <h3><a href="/posts/{{$project->project_id}}">{{$project->project_title}}</a></h3>
-                @guest
-
-                @else
-                    @if(Auth::user()->id == $project->project_user)
-                    <h4>
-                        You can edit this, it's your project!
-                    </h4>
-                    @endif
-                @endguest
                 <small>Written on {{$project->project_created_at}} by {{$project->first_name}} {{$project->last_name}}</small>
             </div>
         </div>

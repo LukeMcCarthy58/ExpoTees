@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'PagesController@index');
 
 Route::resource('posts', 'ProjectsController');
-Auth::routes();
+
 
 Route::get('/dashboard', 'DashboardController@index');
+
+Route::resource('assign', 'AssignsController');
+Auth::routes();
