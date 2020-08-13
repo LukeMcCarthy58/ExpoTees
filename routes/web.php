@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'PagesController@index');
 
 Route::resource('posts', 'ProjectsController');
-
-
+Route::resource('supervisorprojects', 'SupervisorController');
+Route::resource('adminprojects', 'AdminController');
 Route::get('/dashboard', 'DashboardController@index');
 
 Route::resource('assign', 'AssignsController');

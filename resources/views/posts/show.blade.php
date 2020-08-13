@@ -1,7 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-    <a href="/posts" class="btn btn-info">Go Back</a><br><br>
+    @if(!Auth::guest())
+        @if(Auth::user()->role == "Supervisor")
+            <a href="/supervisorprojects" class="btn btn-info">Go Back</a><br><br>
+        @elseif(Auth::user()->role == "Admin" || Auth::user()->role == "Superadmin")
+            <a href="/adminprojects" class="btn btn-info">Go Back</a><br><br>
+        @else
+            <a href="/posts" class="btn btn-info">Go Back</a><br><br>
+        @endif
+    @else
+        <a href="/posts" class="btn btn-info">Go Back</a><br><br>
+    @endif
     <h1>{{$project->project_title}}</h1>
     @if(!Auth::guest())
         @if(Auth::user()->id == $project->project_user)

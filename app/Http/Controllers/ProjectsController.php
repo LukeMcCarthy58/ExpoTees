@@ -20,6 +20,7 @@ class ProjectsController extends Controller
         $projects = Project::select('*')
         ->join('project_images', 'projects.project_image', '=', 'project_images.project_image_id')
         ->join('users', 'projects.project_user', '=', 'users.id')
+        ->join('supervisor_student_link', 'users.id', '=', 'supervisor_student_link.student_id')
         ->orderBy('project_created_at','desc')->paginate(10);
         //return $projects;
         return view('posts.index')->with('projects', $projects);

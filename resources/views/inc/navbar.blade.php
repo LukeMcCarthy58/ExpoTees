@@ -1,6 +1,7 @@
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
+            <img style="width: 30px; height:30px;" src="/storage/cover_images/expotees.png" alt="Logo">
             {{ config('app.name', 'Laravel') }}
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -19,9 +20,25 @@
                 <a class="nav-link" href="/dashboard">Dashboard</a>
               </li>
               @endguest
-              <li class="nav-item">
-                <a class="nav-link" href="/posts">Projects</a>
-              </li>
+              @if(!Auth::guest())
+                  @if(Auth::user()->role == "Supervisor")
+                    <li class="nav-item">
+                        <a class="nav-link" href="/supervisorprojects">Projects</a>
+                    </li>
+                  @elseif(Auth::user()->role == "Superadmin" || Auth::user()->role == "Admin")
+                    <li class="nav-item">
+                        <a class="nav-link" href="/adminprojects">Projects</a>
+                    </li>
+                  @else
+                    <li class="nav-item">
+                        <a class="nav-link" href="/posts">Projects</a>
+                    </li>
+                  @endif
+              @else
+                <li class="nav-item">
+                    <a class="nav-link" href="/posts">Projects</a>
+                </li>
+              @endif
             </ul>
 
             <!-- Right Side Of Navbar -->

@@ -12,6 +12,16 @@
             <div class="col-md-8 col-sm-4">
                 <h3><a href="/posts/{{$project->project_id}}">{{$project->project_title}}</a></h3>
                 <small>Written on {{$project->project_created_at}} by {{$project->first_name}} {{$project->last_name}}</small>
+                @if(!Auth::guest())
+                    @if($project->project_completed_at > 0 && $project->project_approved_at > 0)
+                        <br><br><h4>Approved for Expo Tees!</h4>
+                    @elseif($project->project_completed_at > 0)
+                        {!!Form::open(['action' => ['AdminController@update', $project->project_id], 'method' => 'POST', 'class' => 'float-right'])!!}
+                            {{Form::hidden('_method', 'PUT')}}
+                            {{Form::submit('Approve for Expo', ['class' => 'btn btn-success'])}}
+                        {!!Form::close()!!}
+                    @endif
+                @endif
             </div>
         </div>
     </div>
