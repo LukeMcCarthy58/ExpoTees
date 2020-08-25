@@ -18,10 +18,10 @@ class ProjectsController extends Controller
     public function index()
     {
         $projects = Project::select('*')
-        ->join('project_images', 'projects.project_image', '=', 'project_images.project_image_id')
-        ->join('users', 'projects.project_user', '=', 'users.id')
-        ->join('supervisor_student_link', 'users.id', '=', 'supervisor_student_link.student_id')
-        ->orderBy('project_created_at','desc')->paginate(10);
+         ->join('project_images', 'projects.project_image_id', '=', 'project_images.project_image_id')
+         ->join('users', 'projects.project_user', '=', 'users.id')
+         ->leftJoin('supervisor_student_link', 'users.id', '=', 'supervisor_student_link.student_id')
+         ->orderBy('project_created_at','desc')->paginate(10);
         //return $projects;
         return view('posts.index')->with('projects', $projects);
     }
@@ -61,14 +61,18 @@ class ProjectsController extends Controller
             $fileNameToStore = $filename.'_'.time().'.'.$extension;
             // Upload image
             $path = $request->file('project_image')->storeAs('public/cover_images', $fileNameToStore);
-        } else {
-            $fileNameToStore = 'noimage.jpg';
+            //Path
+            $awspath = $request->file('project_image')->store('images', 's3');
+            //S3 url
+            $url = Storage::disk('s3')->url($awspath);
+
         }
 
         $current_timestamp = Carbon::now()->toDateTimeString();
         //Create Post
         $project_image = new Project_Image;
         $project_image->project_image_path = $fileNameToStore;
+        $project_image->project_image_url = $url;
         $project_image->save();
         $project_image_id = $project_image->id;
 
@@ -76,10 +80,9 @@ class ProjectsController extends Controller
         $project->project_title = $request->input('project_title');
         $project->project_description = $request->input('project_description');
         $project->project_user = auth()->user()->id;
-        $project->project_image = $project_image_id;
+        $project->project_image_id = $project_image_id;
         $project->project_created_at = $current_timestamp;
         $project->save();
-
 
         return redirect('/posts')->with('success', 'Post Created');
     }
@@ -93,7 +96,7 @@ class ProjectsController extends Controller
     public function show($id)
     {
         $project = Project::select('*')
-        ->join('project_images', 'projects.project_image', '=', 'project_images.project_image_id')
+        ->join('project_images', 'projects.project_image_id', '=', 'project_images.project_image_id')
         ->join('users', 'projects.project_user', '=', 'users.id')
         ->where('project_id', $id)->first();
         return view('posts.show')->with('project', $project);
@@ -170,7 +173,7 @@ class ProjectsController extends Controller
     public function destroy($id)
     {
         $project = Project::select('*')
-        ->join('project_images', 'projects.project_image', '=', 'project_images.project_image_id')
+        ->join('project_images', 'projects.project_image_id', '=', 'project_images.project_image_id')
         ->join('users', 'projects.project_user', '=', 'users.id')
         ->where('project_id', $id)->first();
 

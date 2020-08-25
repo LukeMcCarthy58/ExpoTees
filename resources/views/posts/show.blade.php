@@ -24,7 +24,7 @@
         <br><br>
         @endif
     @endif
-    <img style="width: 100%;" src="/storage/cover_images/{{$project->project_image_path}}" alt="Uploaded image">
+    <img style="width: 100%;" src="{{$project->project_image_url}}" alt="Uploaded image">
     <br>
     <br>
     <br>
