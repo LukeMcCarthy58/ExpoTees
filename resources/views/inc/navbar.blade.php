@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
-            <img style="width: 30px; height:30px;" src="/storage/cover_images/expotees.png" alt="Logo">
+            <img style="width: 30px; height:30px;" src="https://expotees-images.s3.eu-west-2.amazonaws.com/images/expotees.png" alt="Logo">
             {{ config('app.name', 'Laravel') }}
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">

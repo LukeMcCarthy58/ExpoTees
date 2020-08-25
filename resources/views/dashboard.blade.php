@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="row">
-                <img class="mx-auto d-block" style="width: 150px; height:150px;" src="/storage/cover_images/expotees.png" alt="Logo">
+                <img class="mx-auto d-block" style="width: 150px; height:150px;" src="https://expotees-images.s3.eu-west-2.amazonaws.com/images/expotees.png" alt="Logo">
             </div>
             <div class="card">
                 <div class="card-header">{{ __('Dashboard') }}</div>
