@@ -6,7 +6,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
-Expo Tees CMS created in Laravel by Luke McCarthy
+Expo Tees CMS created in Laravel by Luke McCarthy. Full working CRUD application for Uni students to upload projects for review. Supervisors can approve these as ready to be moderated. Admins can then say that these projects are ready for the Expo Tees convention, where they will be seen by potential employers. This is a university project.
 
 
 ## About Laravel
