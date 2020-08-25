@@ -74,7 +74,7 @@ class ProjectsController extends Controller
         $project_image->project_image_path = $fileNameToStore;
         $project_image->project_image_url = $url;
         $project_image->save();
-        $project_image_id = $project_image->id;
+        $project_image_id = $project_image->project_image_id;
 
         $project = new Project;
         $project->project_title = $request->input('project_title');
