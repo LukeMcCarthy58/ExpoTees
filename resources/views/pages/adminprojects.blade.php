@@ -7,7 +7,7 @@
     <div class="card p-3">
         <div class="row">
             <div class="col-md-4 col-sm-4">
-                <img style="width: 100%;" src="/storage/cover_images/{{$project->project_image_path}}" alt="Uploaded image">
+                <img style="width: 100%;" src="{{$project->project_image_url}}" alt="Uploaded image">
             </div>
             <div class="col-md-8 col-sm-4">
                 <h3><a href="/posts/{{$project->project_id}}">{{$project->project_title}}</a></h3>
