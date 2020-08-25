@@ -16,7 +16,7 @@ class SupervisorController extends Controller
     public function index()
     {
         $projects = Project::select('*')
-        ->join('project_images', 'projects.project_image', '=', 'project_images.project_image_id')
+        ->join('project_images', 'projects.project_image_id', '=', 'project_images.project_image_id')
         ->join('users', 'projects.project_user', '=', 'users.id')
         ->join('supervisor_student_link', 'users.id', '=', 'supervisor_student_link.student_id')
         ->orderBy('project_created_at','desc')->paginate(10);
